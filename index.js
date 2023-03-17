@@ -77,3 +77,5 @@ app.post("/upload-image-base64", (req, res) => {
 
 // Start the server
 app.listen(3000, () => console.log("Server running on port 3000"));
+
+console.log(execSync(`cd test &&  node parse.js`).toString());
