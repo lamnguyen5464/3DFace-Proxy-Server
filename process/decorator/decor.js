@@ -1,8 +1,12 @@
 const fs = require("fs");
 
-const startTime = new Date().getTime();
+const args = process.argv;
 
-const outputFile = "./obj_files/test.obj";
+const facePath = args[2];
+const itemsPath = args[3];
+const outputFile = args[4];
+
+const startTime = new Date().getTime();
 
 const result = {
   f: [],
@@ -16,33 +20,30 @@ const result = {
   },
 };
 
-const faceFile = fs
-  .readFileSync("./obj_files/face0.obj", "utf8")
+fs.readFileSync(facePath, "utf8")
   .split("\n")
   .forEach((line) => {
     const [tag] = line.split(" ") || [];
     result.push(tag, line);
   });
 
-// fs.writeFileSync(outputFile, face.join("\n") + "\n");
-
-const SCALE_RATIO = 1100;
-const DELTA = [90, 60, 90];
+let SCALE_RATIO = null; // = 970;
+let TRANSFORM = null; //[-40, 70, -50];
 
 const verticeSum = result.v.length;
 
 const scaler = {
-  rootForSize: null,
+  rootForScale: null,
 
   scaleSize(points = [], ratio) {
-    if (!this.rootForSize) {
-      this.rootForSize = points;
+    if (!this.rootForScale) {
+      this.rootForScale = points;
       return points;
     }
 
     return points.map(
       (x, index) =>
-        (x - this.rootForSize[index]) * ratio + this.rootForSize[index]
+        (x - this.rootForScale[index]) * ratio + this.rootForScale[index]
     );
   },
 
@@ -51,16 +52,22 @@ const scaler = {
   },
 
   reset() {
-    this.rootForSize = null;
+    this.rootForScale = null;
   },
 };
 
-const hair = fs
-  .readFileSync("./obj_files/hair_female_2.obj", "utf8")
+fs.readFileSync(itemsPath, "utf8")
   .split("\n")
   .map((line) => {
     const items = line.split(" ");
     const [tag, ...rawPoints] = items;
+
+    if (tag === "#SCALE") {
+      SCALE_RATIO = Number(rawPoints[0]);
+    }
+    if (tag === "#TRANSFORM") {
+      TRANSFORM = rawPoints.map((item) => Number(item));
+    }
     if (tag === "f") {
       const split = line.includes("//") ? "//" : "/";
 
@@ -81,7 +88,7 @@ const hair = fs
       // =>  (x1 - x) * RATIO + x = x2
 
       const scaledPoints = scaler.scaleSize(points, SCALE_RATIO);
-      const transformedPoints = scaler.transform(scaledPoints, DELTA);
+      const transformedPoints = scaler.transform(scaledPoints, TRANSFORM);
 
       return [tag, ...transformedPoints];
     }

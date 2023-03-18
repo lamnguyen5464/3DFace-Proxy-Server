@@ -25,7 +25,7 @@ const saveImage = (buffer, imagePath) => {
 const processImage = (id) => {
   return new Promise((resolve, reject) => {
     try {
-      const result = execSync(`node process/main.js ${id}`).toString();
+      const result = execSync(`node process/ml-core/main.js ${id}`).toString();
       console.log(result);
       resolve(result);
     } catch (e) {
@@ -78,4 +78,8 @@ app.post("/upload-image-base64", (req, res) => {
 // Start the server
 app.listen(3000, () => console.log("Server running on port 3000"));
 
-console.log(execSync(`cd test &&  node parse.js`).toString());
+console.log(
+  execSync(
+    `node process/decorator/decor.js ./process/decorator/obj_files/face2.obj ./process/decorator/obj_files/glasses_0.obj ./process/decorator/obj_files/result.obj`
+  ).toString()
+);

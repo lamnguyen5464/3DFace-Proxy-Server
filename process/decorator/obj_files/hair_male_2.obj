@@ -1,5 +1,5 @@
-# Blender v2.70 (sub 0) OBJ File: 'hair_male_2.blend'
-# www.blender.org
+#SCALE 990
+#TRANSFORM 80 30 -50
 mtllib hair_male_2.mtl
 o s4studio_mesh_2_geom.001
 v 0.079443 1.762060 0.005992
