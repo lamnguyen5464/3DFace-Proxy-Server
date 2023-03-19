@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "start": "nodemon index.js || cd process/ml-core || mkdir input || mkdir output || cd ../..",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "ngrok": "killall ngrok ; ngrok authtoken 222Z3ruz3G3E7k8JnG05h16uJqh_3bedLy3eaEADRG3FW69HE && ngrok http 3000"
   },
   "author": "",
   "license": "ISC",

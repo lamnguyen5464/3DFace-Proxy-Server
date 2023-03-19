@@ -5,7 +5,7 @@ const imageHandler = require("./src/ImageHandler");
 const { createId } = require("./src/Utils");
 
 app.use(bodyParser.json({ limit: "100mb" }));
-app.get("/get-token", (req, res) => {
+app.post("/token", (req, res) => {
   const id = createId();
   res.status(200).send(id);
 });

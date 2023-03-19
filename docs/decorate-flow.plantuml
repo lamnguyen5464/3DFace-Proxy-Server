@@ -1,0 +1,40 @@
+@startuml
+
+participant App #Application 
+participant Backend #FFBBBB
+database Storage
+participant "ML-process" as ML #Technology
+
+==Init==
+
+App -> Backend: request token
+activate Backend #FFBBBB
+Backend -> App: return token
+deactivate Backend #FFBBBB
+
+==Capture flow==
+App -> App: capture image of face
+App -> Backend: send { image, token }
+activate Backend #FFBBBB
+
+Backend -> ML: send 2D image 
+activate ML #Technology
+ML -> ML: process
+ML -> Backend: return 3D .obj file of face
+deactivate ML #Technology
+Backend -> App: return .obj file to render
+Backend -> Storage: cache .obj by $token
+deactivate Backend #FFBBBB
+
+==Decorate flow==
+
+App -> Backend: send { item, token }
+activate Backend #FFBBBB
+Backend -> Storage: get item .obj and face .obj by token
+Storage -> Backend: returen .obj file of item, face
+Backend -> Backend: merge these files
+Backend -> App: return .obj file
+Backend -> Storage: cache .obj by $token_$item
+deactivate Backend #FFBBBB
+
+@enduml

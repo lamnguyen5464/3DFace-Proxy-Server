@@ -4,16 +4,16 @@ const { execSync } = require("child_process");
 
 class ImageHandler {
   handleUpload(req, res) {
-    const id = req?.body?.id || createId();
+    const id = req?.body?.token || createId();
 
     console.log(`[process ${id}] start...`);
 
     const base64Image = req.body?.image;
 
-    const base64Data = base64Image.replace(/^data:image\/png;base64,/, "");
+    const base64Data = base64Image?.replace(/^data:image\/jpeg;base64,/, "");
     const buffer = Buffer.from(base64Data, "base64");
 
-    const imageName = `${id}.png`;
+    const imageName = `${id}.jpeg`;
     const imagePath = `process/ml-core/input/${imageName}`;
 
     const onSuccess = (outputPath) => {
@@ -45,8 +45,9 @@ class ImageHandler {
   }
 
   handleDecor(req, res) {
-    const id = req.body?.id;
+    const id = req.body?.token;
     const item = req.body?.item;
+    console.log(`[deocor ${id}] start with item ${item}...`);
 
     const outputPath = `./process/ml-core/output/${id}_${item}.obj`;
     const rawFilePath = `./process/ml-core/output/${id}.obj`;
