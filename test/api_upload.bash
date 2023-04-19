@@ -7,7 +7,7 @@ echo "start request upload..."
 curl -X POST \
   -H "Content-Type: application/json" \
   -d '{"image": "data:image/png;base64,'"$BASE64_IMG"'", "token": "123zyx"}' \
-  http://c967-115-79-229-226.ngrok.io/upload-image-base64 > result.obj
+  http://localhost:3000/upload-image-base64 > result.obj
 
 # rm .test_upload.bash.swp
 rm img_base64.txt

@@ -1,12 +1,25 @@
 #!/bin/bash
 urle () { [[ "${1}" ]] || return 1; local LANG=C i x; for (( i = 0; i < ${#1}; i++ )); do x="${1:i:1}"; [[ "${x}" == [a-zA-Z0-9.~-] ]] && echo -n "${x}" || printf '%%%02X' "'${x}"; done; echo; }
 
+# echo "Install necessary CLI..."
+# sudo apt-get update
+# sudo apt-get install wget
+
+# echo "Install conda: https://linuxhint.com/conda-command-not-found/"
+# wget https://repo.anaconda.com/archive/Anaconda3-2022.05-Linux-x86_64.sh
+# bash ~/Downloads/Anaconda3-2022.05-Linux-x86_64.sh
+
+
+
 # username and password input
 echo -e "\nIf you do not have an account you can register at https://flame.is.tue.mpg.de/ following the installation instruction."
-read -p "Username (FLAME):" username
-read -p "Password (FLAME):" password
-username=$(urle $username)
-password=$(urle $password)
+# read -p "Username (FLAME):" username
+# read -p "Password (FLAME):" password
+# username=$(urle $username)
+# password=$(urle $password)
+username="ntlam19@apcs.vn"
+password="5464526123"
+
 
 echo -e "\nDownloading FLAME..."
 mkdir -p data/FLAME2020/
