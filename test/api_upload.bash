@@ -10,4 +10,4 @@ curl -X POST \
   http://localhost:3000/upload-image-base64 > result.obj
 
 # rm .test_upload.bash.swp
-rm img_base64.txt
+# rm img_base64.txt

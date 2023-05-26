@@ -13,7 +13,7 @@ class ImageHandler {
     const base64Data = base64Image?.replace(/^data:image\/jpeg;base64,/, "");
     const buffer = Buffer.from(base64Data, "base64");
 
-    const imageName = `${id}.jpeg`;
+    const imageName = `${id}.jpg`;
     const imagePath = `process/ml-core/input/${imageName}`;
 
     const onSuccess = (outputPath) => {

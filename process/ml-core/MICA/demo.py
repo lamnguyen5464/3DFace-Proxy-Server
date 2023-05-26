@@ -8,7 +8,7 @@
 # Any use of the computer program without a valid license is prohibited and
 # liable to prosecution.
 #
-# Copyright©2023 Max-Planck-Gesellschaft zur Förderung
+# Copyright©2022 Max-Planck-Gesellschaft zur Förderung
 # der Wissenschaften e.V. (MPG). acting on behalf of its Max Planck Institute
 # for Intelligent Systems. All rights reserved.
 #
@@ -26,6 +26,7 @@ import numpy as np
 import torch
 import torch.backends.cudnn as cudnn
 import trimesh
+from insightface.app import FaceAnalysis
 from insightface.app.common import Face
 from insightface.utils import face_align
 from loguru import logger
@@ -33,9 +34,8 @@ from skimage.io import imread
 from tqdm import tqdm
 
 from configs.config import get_cfg_defaults
-from datasets.creation.util import get_arcface_input, get_center, draw_on
+from datasets.creation.util import get_arcface_input, get_center
 from utils import util
-from utils.landmark_detector import LandmarksDetector, detectors
 
 
 def deterministic(rank):
@@ -48,7 +48,7 @@ def deterministic(rank):
     cudnn.benchmark = False
 
 
-def process(args, app, image_size=224, draw_bbox=False):
+def process(args, app, image_size=224):
     dst = Path(args.a)
     dst.mkdir(parents=True, exist_ok=True)
     processes = []
@@ -56,9 +56,8 @@ def process(args, app, image_size=224, draw_bbox=False):
     for image_path in tqdm(image_paths):
         name = Path(image_path).stem
         img = cv2.imread(image_path)
-        bboxes, kpss = app.detect(img)
+        bboxes, kpss = app.det_model.detect(img, max_num=0, metric='default')
         if bboxes.shape[0] == 0:
-            logger.error(f'[ERROR] Face not detected for {image_path}')
             continue
         i = get_center(bboxes, img)
         bbox = bboxes[i, 0:4]
@@ -70,11 +69,8 @@ def process(args, app, image_size=224, draw_bbox=False):
         blob, aimg = get_arcface_input(face, img)
         file = str(Path(dst, name))
         np.save(file, blob)
-        processes.append(file + '.npy')
         cv2.imwrite(file + '.jpg', face_align.norm_crop(img, landmark=face.kps, image_size=image_size))
-        if draw_bbox:
-            dimg = draw_on(img, [face])
-            cv2.imwrite(file + '_bbox.jpg', dimg)
+        processes.append(file + '.npy')
 
     return processes
 
@@ -113,11 +109,12 @@ def main(cfg, args):
     faces = mica.flameModel.generator.faces_tensor.cpu()
     Path(args.o).mkdir(exist_ok=True, parents=True)
 
-    app = LandmarksDetector(model=detectors.RETINAFACE)
+    app = FaceAnalysis(name='antelopev2', providers=['CUDAExecutionProvider'])
+    app.prepare(ctx_id=0, det_size=(224, 224))
 
     with torch.no_grad():
         logger.info(f'Processing has started...')
-        paths = process(args, app, draw_bbox=False)
+        paths = process(args, app)
         for path in tqdm(paths):
             name = Path(path).stem
             images, arcface = to_batch(path)
