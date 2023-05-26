@@ -17,7 +17,7 @@ echo -e "\nIf you do not have an account you can register at https://flame.is.tu
 # read -p "Password (FLAME):" password
 # username=$(urle $username)
 # password=$(urle $password)
-username="ntlam19@apcs.vn"
+username="ntlam19@apcs.fitus.edu.vn"
 password="5464526123"
 
 
