@@ -1,0 +1,42 @@
+Command failed: node process/ml-core/main.js 123zyx
+mkdir: process/ml-core/input: File exists
+/bin/sh: python: command not found
+child_process.js:655
+    throw err;
+    ^
+
+Error: Command failed: cd process/ml-core/MICA && python demo.py
+/bin/sh: python: command not found
+
+    at checkExecSyncError (child_process.js:616:11)
+    at execSync (child_process.js:652:15)
+    at Object.<anonymous> (/Users/lamnguyen5464/Dev/3DFace/server/process/ml-core/main.js:30:13)
+    at Module._compile (internal/modules/cjs/loader.js:1063:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1092:10)
+    at Module.load (internal/modules/cjs/loader.js:928:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:769:14)
+    at Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)
+    at internal/main/run_main_module.js:17:47 {
+  status: 127,
+  signal: null,
+  output: [
+    null,
+    Buffer(0) [Uint8Array] [],
+    Buffer(35) [Uint8Array] [
+       47,  98, 105, 110,  47, 115, 104,  58,
+       32, 112, 121, 116, 104, 111, 110,  58,
+       32,  99, 111, 109, 109,  97, 110, 100,
+       32, 110, 111, 116,  32, 102, 111, 117,
+      110, 100,  10
+    ]
+  ],
+  pid: 90787,
+  stdout: Buffer(0) [Uint8Array] [],
+  stderr: Buffer(35) [Uint8Array] [
+     47,  98, 105, 110,  47, 115, 104,  58,
+     32, 112, 121, 116, 104, 111, 110,  58,
+     32,  99, 111, 109, 109,  97, 110, 100,
+     32, 110, 111, 116,  32, 102, 111, 117,
+    110, 100,  10
+  ]
+}
