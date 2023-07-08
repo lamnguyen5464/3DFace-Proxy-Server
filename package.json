@@ -5,7 +5,8 @@
   "scripts": {
     "setup:mica": "cd process/ml-core/MICA && bash install.sh && cd ../../../",
     "start": "nodemon index.js || cd process/ml-core || mkdir input || mkdir output || cd ../..",
-    "ngrok": "killall ngrok ; ngrok authtoken 222Z3ruz3G3E7k8JnG05h16uJqh_3bedLy3eaEADRG3FW69HE && ngrok http 3000"
+    "ngrok": "killall ngrok ; ngrok authtoken 222Z3ruz3G3E7k8JnG05h16uJqh_3bedLy3eaEADRG3FW69HE && ngrok http 3000",
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
@@ -17,6 +18,11 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.12",
+    "istanbul-lib-coverage": "^3.2.0",
+    "istanbul-lib-instrument": "^5.2.1",
+    "istanbul-lib-source-maps": "^4.0.1",
+    "istanbul-reports": "^3.1.5",
+    "jest": "^29.6.1",
     "nodemon": "^2.0.21",
     "typescript": "^4.4.4"
   }
