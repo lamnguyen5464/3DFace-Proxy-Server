@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "setup:mica": "cd process/ml-core/MICA && bash install.sh && cd ../../../",
-    "start": "nodemon index.js || cd process/ml-core || mkdir input || mkdir output || cd ../..",
+    "setup:node": "cd process/ml-core && mkdir input && mkdir output || cd ../.. || yarn",
+    "start": "nodemon index.js",
     "ngrok": "killall ngrok ; ngrok authtoken 222Z3ruz3G3E7k8JnG05h16uJqh_3bedLy3eaEADRG3FW69HE && ngrok http 3000",
     "test": "jest"
   },
